@@ -57,7 +57,7 @@
     </button>
 
     <table border="2" id="theTable" style="width:70%">
-        <tr>
+        <tr id="activity-head">
             <th>No</th>
             <th>Activity</th>
             <th>Weight</th>
@@ -98,6 +98,8 @@
         clearError = "Error Message: ";
         activityRejected = "Error Message: Activity name is rejected.</br>";
         weightRejected = "Error Message: Weight is rejected.<br/>";
+        gradeRejected = "Error Message: Grade is rejected.<br/>";
+        activityNoRejected = "Error Message: Activity No is rejected.<br/>";
 
         function addActivity() {
 
@@ -139,7 +141,31 @@
         }
 
         function addGrade() {
-            window.alert("addGrade");
+            var isValid = true;
+            ERR.innerText = clearError;
+
+            var gradeElement = document.getElementById("grade");
+            var gradeText = gradeElement.value.trim();
+            var grade = Number(gradeText);
+            if(grade != gradeText || (grade > 100 || grade < 0)) {
+                isValid = false;
+                ERR.innerHTML = gradeRejected;
+            }
+
+            var activityNoElement = document.getElementById("activityNo");
+            var activityRowElement = document.getElementById("activity-" + activityNoElement.value.trim());
+            if(activityRowElement == null) {
+                isValid = false;
+                ERR.innerHTML += activityNoRejected;
+            }
+
+            if(isValid) {
+                activityRowElement.cells[3].innerHTML = gradeElement.value;
+                gradeElement.value = "";
+                activityNoElement.value = "";
+            }
+
+
         }
     </script>
 </div>
