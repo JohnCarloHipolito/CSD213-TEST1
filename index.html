@@ -25,6 +25,26 @@
             Geneva, Verdana, sans-serif;
             align: center;
         }
+
+        #editActivity, #deleteActivity, #deleteByNo {
+            margin-right: 2px;
+            margin-left: 2px;
+        }
+
+        #addActivity, #addGrade {
+            background-color: lightgreen;
+        }
+
+        #editActivity{
+            background-color: lightblue;
+        }
+        #deleteActivity, #deleteByNo {
+            background-color: red;
+        }
+
+        #activity-head {
+            background-color: lightgrey;
+        }
     </style>
 </head>
 
@@ -52,12 +72,14 @@
     <label for="activityNo">Activity no</label>
     <input type="text" id="activityNo" size="3"><br>
 
+    <button onclick="deleteActivity()" id="deleteActivity">
+        Delete Activity
+    </button>
+    <button onclick="deleteByNo()" id="deleteByNo">
+        Delete By No
+    </button>
     <button onclick="editActivity()" id="editActivity">
         Edit Activity
-    </button><button onclick="deleteActivity()" id="deleteActivity">
-        Delete Activity
-    </button><button onclick="deleteByNo()" id="deleteByNo">
-        Delete By Number
     </button>
 
     <table border="2" id="theTable" style="width:70%">
@@ -186,10 +208,17 @@
             var isValid = true;
             ERR.innerText = clearError;
 
+            var activityNoElement = document.getElementById("activityNo");
+            var activityRowElement = document.getElementById("activity-" + activityNoElement.value.trim());
+            if(activityRowElement == null) {
+                isValid = false;
+                ERR.innerHTML = activityNoRejected;
+            }
+
             var activityElement = document.getElementById("activity");
             if(activityElement.value == "") {
                 isValid = false;
-                ERR.innerHTML = activityRejected;
+                ERR.innerHTML += activityRejected;
             }
 
             var weightElement = document.getElementById("Weight");
@@ -200,16 +229,21 @@
                 ERR.innerHTML += weightRejected;
             }
 
-            var activityNoElement = document.getElementById("activityNo");
-            var activityRowElement = document.getElementById("activity-" + activityNoElement.value.trim());
-            if(activityRowElement == null) {
+            var gradeElement = document.getElementById("grade");
+            var gradeText = gradeElement.value.trim();
+            var grade = Number(gradeText);
+            //since grade is optional, only check if there is a content.
+            if(gradeText != "" && (grade != gradeText || (grade > 100 || grade < 0))) {
                 isValid = false;
-                ERR.innerHTML += activityNoRejected;
+                ERR.innerHTML = gradeRejected;
             }
+
+
 
             if(isValid) {
                 activityRowElement.cells[1].innerHTML = activityElement.value;
                 activityRowElement.cells[2].innerHTML = weightElement.value;
+                activityRowElement.cells[3].innerHTML = gradeElement.value;
 
                 activityElement.value = "";
                 weightElement.value = "";
