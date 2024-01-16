@@ -63,25 +63,25 @@
             <th>Weight</th>
             <th>Grade</th>
         </tr>
-        <tr>
+        <tr id="activity-1">
             <td>1</td>
             <td>Lab1</td>
             <td>10</td>
             <td></td>
         </tr>
-        <tr>
+        <tr id="activity-2">
             <td>2</td>
             <td>Lab2</td>
             <td>20</td>
             <td></td>
         </tr>
-        <tr>
+        <tr id="activity-3">
             <td>3</td>
             <td>Test1</td>
             <td>30</td>
             <td></td>
         </tr>
-        <tr>
+        <tr id="activity-4">
             <td>4</td>
             <td>Test2</td>
             <td>40</td>
@@ -93,11 +93,46 @@
         noActivity = 4;
         totalWeight = 100;
         ERR = document.getElementById("ERR");
+        lastActivtyNo = 4;
+
+        clearError = "Error Message: ";
+        activityRejected = "Error Message: Activity name is rejected.</br>";
+        weightRejected = "Error Message: Weight is rejected.<br/>";
 
         function addActivity() {
-            window.alert("addActivity");
-        }
 
+            var isValid = true;
+            ERR.innerText = clearError;
+
+            var activityElement = document.getElementById("activity");
+            if(activityElement.value == "") {
+                isValid = false;
+                ERR.innerHTML = activityRejected;
+            }
+            var weightElement = document.getElementById("Weight");
+            var weightText = weightElement.value.trim();
+            var weight = Number(weightText);
+            if(weight != weightText || (weight > 100 || weight < 1)) {
+                isValid = false;
+                ERR.innerHTML += weightRejected;
+            }
+
+            if(isValid) {
+                lastActivtyNo++;
+                noActivity++;
+
+                var row = document.getElementById('theTable').insertRow(-1);
+                row.setAttribute("id", "activity-" + lastActivtyNo);
+                row.insertCell(0).innerHTML = lastActivtyNo;
+                row.insertCell(1).innerHTML = activityElement.value;
+                row.insertCell(2).innerHTML = weightElement.value;
+                row.insertCell(3).innerHTML = "";
+
+                activityElement.value = "";
+                weightElement.value = "";
+            }
+
+        }
 
         function deleteActivity() {
             window.alert("deleteActivity");
