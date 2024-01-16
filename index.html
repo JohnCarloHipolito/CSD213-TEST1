@@ -52,8 +52,12 @@
     <label for="activityNo">Activity no</label>
     <input type="text" id="activityNo" size="3"><br>
 
-    <button onclick="deleteActivity()" id="deleteActivity">
+    <button onclick="editActivity()" id="editActivity">
+        Edit Activity
+    </button><button onclick="deleteActivity()" id="deleteActivity">
         Delete Activity
+    </button><button onclick="deleteByNo()" id="deleteByNo">
+        Delete By Number
     </button>
 
     <table border="2" id="theTable" style="width:70%">
@@ -92,9 +96,9 @@
     <script>
         noActivity = 4;
         totalWeight = 100;
-        ERR = document.getElementById("ERR");
         lastActivtyNo = 4;
 
+        ERR = document.getElementById("ERR");
         clearError = "Error Message: ";
         activityRejected = "Error Message: Activity name is rejected.</br>";
         weightRejected = "Error Message: Weight is rejected.<br/>";
@@ -123,6 +127,7 @@
             if(isValid) {
                 lastActivtyNo++;
                 noActivity++;
+                totalWeight += weight;
 
                 var row = document.getElementById('theTable').insertRow(-1);
                 row.setAttribute("id", "activity-" + lastActivtyNo);
@@ -138,10 +143,13 @@
         }
 
         function deleteActivity() {
-            var theTable = document.getElementById('theTable')
+            var theTable = document.getElementById('theTable');
             if (theTable.rows.length > 1) {
                 // the bottom row
-                theTable.deleteRow(-1)
+                var weight = theTable.rows[theTable.rows.length - 1].cells[2].innerText;
+                theTable.deleteRow(-1);
+                noActivity--;
+                totalWeight -= weight;
             } else {
                 ERR.innerHTML = deleteBotRejected;
             }
@@ -171,9 +179,16 @@
                 gradeElement.value = "";
                 activityNoElement.value = "";
             }
+        }
 
+        function editActivity() {
 
         }
+
+        function deleteByNo() {
+
+        }
+
     </script>
 </div>
 </body>
