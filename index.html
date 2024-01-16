@@ -143,6 +143,7 @@
         }
 
         function deleteActivity() {
+            ERR.innerText = clearError;
             var theTable = document.getElementById('theTable');
             if (theTable.rows.length > 1) {
                 // the bottom row
@@ -182,12 +183,40 @@
         }
 
         function editActivity() {
+            var isValid = true;
+            ERR.innerText = clearError;
 
+            var activityElement = document.getElementById("activity");
+            if(activityElement.value == "") {
+                isValid = false;
+                ERR.innerHTML = activityRejected;
+            }
+
+            var weightElement = document.getElementById("Weight");
+            var weightText = weightElement.value.trim();
+            var weight = Number(weightText);
+            if(weightText == "" || weight != weightText || (weight > 100 || weight < 1)) {
+                isValid = false;
+                ERR.innerHTML += weightRejected;
+            }
+
+            var activityNoElement = document.getElementById("activityNo");
+            var activityRowElement = document.getElementById("activity-" + activityNoElement.value.trim());
+            if(activityRowElement == null) {
+                isValid = false;
+                ERR.innerHTML += activityNoRejected;
+            }
+
+            if(isValid) {
+                activityRowElement.cells[1].innerHTML = activityElement.value;
+                activityRowElement.cells[2].innerHTML = weightElement.value;
+
+                activityElement.value = "";
+                weightElement.value = "";
+                activityNoElement.value = "";
+            }
         }
 
-        function deleteByNo() {
-
-        }
 
     </script>
 </div>
