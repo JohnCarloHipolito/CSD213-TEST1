@@ -217,6 +217,31 @@
             }
         }
 
+        function deleteByNo() {
+            var isValid = true;
+            ERR.innerText = clearError;
+
+            var theTable = document.getElementById('theTable');
+            var activityNoElement = document.getElementById("activityNo");
+            var activityRowElement = document.getElementById("activity-" + activityNoElement.value.trim());
+
+            if(theTable.rows.length <= 1) {
+                ERR.innerHTML = deleteBotRejected;
+            }
+            else if(activityRowElement == null) {
+                isValid = false;
+                ERR.innerHTML += activityNoRejected;
+            }
+
+            if(isValid) {
+                var weight = activityRowElement.cells[2].innerText;
+                var rowIndex = activityRowElement.rowIndex;
+                theTable.deleteRow(rowIndex);
+                noActivity--;
+                totalWeight -= weight;
+                activityNoElement.value = "";
+            }
+        }
 
     </script>
 </div>
