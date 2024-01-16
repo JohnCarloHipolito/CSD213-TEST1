@@ -100,6 +100,7 @@
         weightRejected = "Error Message: Weight is rejected.<br/>";
         gradeRejected = "Error Message: Grade is rejected.<br/>";
         activityNoRejected = "Error Message: Activity No is rejected.<br/>";
+        deleteBotRejected = "Error Message: No more activities to remove.<br/>";
 
         function addActivity() {
 
@@ -114,7 +115,7 @@
             var weightElement = document.getElementById("Weight");
             var weightText = weightElement.value.trim();
             var weight = Number(weightText);
-            if(weight != weightText || (weight > 100 || weight < 1)) {
+            if(weightText == "" || weight != weightText || (weight > 100 || weight < 1)) {
                 isValid = false;
                 ERR.innerHTML += weightRejected;
             }
@@ -137,7 +138,13 @@
         }
 
         function deleteActivity() {
-            window.alert("deleteActivity");
+            var theTable = document.getElementById('theTable')
+            if (theTable.rows.length > 1) {
+                // the bottom row
+                theTable.deleteRow(-1)
+            } else {
+                ERR.innerHTML = deleteBotRejected;
+            }
         }
 
         function addGrade() {
@@ -147,7 +154,7 @@
             var gradeElement = document.getElementById("grade");
             var gradeText = gradeElement.value.trim();
             var grade = Number(gradeText);
-            if(grade != gradeText || (grade > 100 || grade < 0)) {
+            if(gradeText == "" || grade != gradeText || (grade > 100 || grade < 0)) {
                 isValid = false;
                 ERR.innerHTML = gradeRejected;
             }
